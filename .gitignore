@@ -1,0 +1,12 @@
+*/*.log
+*/*.aux
+*/*.out
+*/*.pdf
+*.log
+*.aux
+*.out
+*.pdf
+*.key
+result
+luatex-cache
+secrets.nix
