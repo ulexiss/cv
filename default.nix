@@ -10,6 +10,10 @@
   let
     name = "ulexiss-cv";
 
+    secrectsAsList = lib.mapAttrsToList (name: value: ''!!!${name}!!! ${value}'') (lib.mapAttrs (name: value: lib.escapeShellArg value) secrets);
+
+    patchScript = lib.foldl (a: b: a + ''substituteInPlace ${name}.tex --replace ${b}'' + "\n") "" secrectsAsList;
+
     derivationParams = {
       name = name;
 
@@ -41,14 +45,18 @@
         glibcLocales
       ];
 
+      postPatch = patchScript;
+
       buildPhase = ''
         export TEXMFVAR=$(pwd)
-        lualatex -interaction=nonstopmode $src/$name.tex
-        lualatex -interaction=nonstopmode $src/$name.tex
+
+        lualatex -interaction=nonstopmode $name.tex
+        lualatex -interaction=nonstopmode $name.tex
       '';
 
       installPhase = ''
         mkdir -p $out
+
         cp $name.log $out
         cp $name.pdf $out
       '';
