@@ -13,7 +13,15 @@
 \usepackage[most]{tcolorbox}
 \usepackage{hyperref}
 
+\AtEndDocument{\vfill%
+  % Your end-of-document content
+  \begin{center}
+    \footnotesize \textsc{!!!FOOTER!!!}
+  \end{center}
+}
 
+
+%% shaded sections config
 \tcbset{
     frame code={}
     center title,
